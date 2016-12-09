@@ -5,54 +5,16 @@
  *
  */
 
-
-/* hard-coded data! */
-// var sampleAlbums = [];
-// sampleAlbums.push({
-//              artistName: 'Ladyhawke',
-//              name: 'Ladyhawke',
-//              releaseDate: '2008, November 18',
-//              genres: [ 'new wave', 'indie rock', 'synth pop' ]
-//            });
-// sampleAlbums.push({
-//              artistName: 'The Knife',
-//              name: 'Silent Shout',
-//              releaseDate: '2006, February 17',
-//              genres: [ 'synth pop', 'electronica', 'experimental' ]
-//            });
-// sampleAlbums.push({
-//              artistName: 'Juno Reactor',
-//              name: 'Shango',
-//              releaseDate: '2000, October 9',
-//              genres: [ 'electronic', 'goa trance', 'tribal house' ]
-//            });
-// sampleAlbums.push({
-//              artistName: 'Philip Wesley',
-//              name: 'Dark Night of the Soul',
-//              releaseDate: '2008, September 12',
-//              genres: [ 'piano' ]
-//            });
-/* end of hard-coded data */
-
-
-
-
 $(document).ready(function() {
   console.log('app.js loaded!');
   renderAlbum();
 });
 
-
-
-
-
 // this function takes a single album and renders it to the page
 function renderAlbum(album) {
-  console.log('rendering album:', album);
-
   $.get('http://localhost:3000/api/albums', function(res, req){
   var kanyes = res;
-  console.log(kanyes[0]);
+  // console.log(kanyes[0]);
 
   for (var i = 0; i < kanyes.length; i++) {
   var albumHtml =
@@ -94,13 +56,15 @@ function renderAlbum(album) {
   "          </div>" +
   "          <!-- end one album -->";
 
-  // render to the page with jQuery
-  // sampleAlbums.forEach()
-
     $(albums).append(albumHtml);
     }
+     $('#form-horizontal').on('submit', function(event){
+       event.preventDefault();
+       console.log($(this).serialize());
+       var formData = $(this).serialize();
+       $(this).trigger("reset");
+       renderAlbum(formData);
+
+    });
   });
 }
-
-// $('#album-form').onsubmit().serialize()
-// var formdata
