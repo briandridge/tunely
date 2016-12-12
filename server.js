@@ -48,8 +48,8 @@ app.get('/api/albums', function album_index(req, res){
 
 app.post('/api/albums', function newAlbum_index(req, res){
   db.Album.create(req.body, function(err, albums) {
-    // console.log("POST REQUEST");
-    // console.log(req.body);
+    console.log("POST REQUEST");
+    console.log(req.body);
     res.json(albums);
   });
 });

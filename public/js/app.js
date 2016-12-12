@@ -7,7 +7,7 @@
 
 $(document).ready(function() {
   console.log('app.js loaded!');
-  renderAlbum();
+  renderAlbum(kanyes[i]);
 });
 
 // this function takes a single album and renders it to the page
@@ -15,6 +15,8 @@ function renderAlbum(album) {
   $.get('http://localhost:3000/api/albums', function(res, req){
   var kanyes = res;
   // console.log(kanyes[0]);
+
+
 
   for (var i = 0; i < kanyes.length; i++) {
   var albumHtml =
@@ -32,15 +34,15 @@ function renderAlbum(album) {
   "                    <ul class='list-group'>" +
   "                      <li class='list-group-item'>" +
   "                        <h4 class='inline-header'>Album Name:</h4>" +
-  "                        <span class='album-name'>" + kanyes[i].name + "</span>" +
+  "                        <span class='album-name'>" + album + "</span>" +
   "                      </li>" +
   "                      <li class='list-group-item'>" +
   "                        <h4 class='inline-header'>Artist Name:</h4>" +
-  "                        <span class='artist-name'>" +  kanyes[i].artistName+ "</span>" +
+  "                        <span class='artist-name'>" +  album+ "</span>" +
   "                      </li>" +
   "                      <li class='list-group-item'>" +
   "                        <h4 class='inline-header'>Released date:</h4>" +
-  "                        <span class='album-releaseDate'>" + kanyes[i].releaseDate + "</span>" +
+  "                        <span class='album-releaseDate'>" + album + "</span>" +
   "                      </li>" +
   "                    </ul>" +
   "                  </div>" +
@@ -58,13 +60,22 @@ function renderAlbum(album) {
 
     $(albums).append(albumHtml);
     }
-     $('#form-horizontal').on('submit', function(event){
+     $('.form-horizontal').on('submit', function(event){
        event.preventDefault();
-       console.log($(this).serialize());
+       console.log("preventDefault");
        var formData = $(this).serialize();
        $(this).trigger("reset");
-       renderAlbum(formData);
-
+       console.log("reset form");
+       // renderAlbum(formData);
+       console.log("rendered album");
+        
+        $.ajax({
+        type: "POST",
+        url: "/api/albums",
+        data: formData,
+        success: renderAlbum,
+        dataType: String
+        });
     });
   });
 }
